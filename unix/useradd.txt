@@ -1,0 +1,29 @@
+# Create Home User Directory + .ssh Directory
+mkdir -p /home/mynewuser/.ssh
+
+# Create Authorized Keys File
+touch /home/mynewuser/.ssh/authorized_keys
+
+# Create User + Set Home Directory
+useradd -d /home/mynewuser mynewuser
+
+# Add User to sudo Group
+usermod -aG sudo mynewuser
+
+# Set Permissions
+chown -R mynewuser:mynewuser /home/mynewuser/
+chmod 700 /home/mynewuser/.ssh
+chmod 644 /home/mynewuser/.ssh/authorized_keys
+
+# Example for import ssh auth key for user
+cat ~/id_rsa.john.pub >> ~/.ssh/authorized_keys
+
+# Set Password on User
+passwd mynewuser
+
+# Add user to www-data group
+usermod -a -G www-data mynewuser
+
+# View user info
+id mynewuser
+groups mynewuser
