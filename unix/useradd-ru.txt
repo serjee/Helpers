@@ -1,0 +1,29 @@
+# Рекурсивно создаем директорию для нового пользователя и для хранения ssh ключей
+mkdir -p /home/mynewuser/.ssh
+
+# Создание файла-хранилища авторизованных ключей
+touch /home/mynewuser/.ssh/authorized_keys
+
+# Создание нового пользователя и его привязка к созданной ранее директории
+useradd -d /home/mynewuser mynewuser
+
+# Добавление пользователя в группу sudo для возможности исполнения команд с повышенными привилегиями
+usermod -aG sudo mynewuser
+
+# Установка прав доступа пользователю для связанной с ним директорией
+chown -R mynewuser:mynewuser /home/mynewuser/
+chmod 700 /home/mynewuser/.ssh
+chmod 644 /home/mynewuser/.ssh/authorized_keys
+
+# Пример импорта публичного ключа пользователя для возможности удаленного доступа
+cat ~/id_rsa.john.pub >> ~/.ssh/authorized_keys
+
+# Установить пароль пользователю
+passwd mynewuser
+
+# Добавление пользователя в группу www-data
+usermod -a -G www-data mynewuser
+
+# Просмотр идентификатора и группы пользователя
+id mynewuser
+groups mynewuser
