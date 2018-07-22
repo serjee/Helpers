@@ -1,0 +1,62 @@
+# Get a list of all virtual machines:
+virsh -c qemu:///system list --all
+
+# Get a list of virtual machines which has run:
+virsh -c qemu:///system list
+
+# Run the virtual machines with name web_devel:
+virsh -c qemu:///system start web_devel
+
+# Set autostart the virtual machines with name web_devel:
+virsh -c qemu:///system autostart web_devel
+
+# Cancel autostart for the virtual machines with name web_devel:
+virsh -c qemu:///system autostart web_devel --disable
+
+# Check status of virtual machine's network
+virsh -c qemu:///system net-list --all
+
+# Set autostart for network
+virsh -c qemu:///system net-autostart
+
+# Reboot the virtual machines with name web_devel:
+virsh -c qemu:///system reboot web_devel
+
+# Destroy the virtual machines with name web_devel:
+virsh -c qemu:///system destroy web_devel
+
+# Remove the virtual machines with name web_devel:
+virsh -c qemu:///system undefine web_devel
+
+# Get information about domain for the virtual machines with name web_devel:
+virsh -c qemu:///system dominfo web_devel
+
+# Save state of virtual machine with goal to recovery this state in future
+virsh -c qemu:///system save web_devel web_devel-022708.state
+
+# Recovery the virtual machine from file
+virsh -c qemu:///system restore web_devel-022708.state
+
+# Copy one virtual machine to another
+sudo virt-clone -o web_devel -n database_devel -f /path/to/database_devel.img --connect=qemu:///system 
+
+#########################################
+# Transferring USB to a virtual machine #
+#########################################
+
+# Display bus/device of usb-flash drive
+lsusb
+
+# Create XML and input the bus/device information. Bellow is out of the following command: >cat usb.device.xml:
+<hostdev mode='subsystem' type='usb' managed='yes'>
+	<source>
+		<address bus='007' device='002'/>
+	</source>
+</hostdev>
+
+# Bind xml config file to virtual machine
+virsh attach-device <domain> <file>
+
+# for save data after reboot (export xml settings for domain and point the one as default)
+virsh dumpxml <domain> > /full/path/to/<domain>.xml
+virsh define <file>

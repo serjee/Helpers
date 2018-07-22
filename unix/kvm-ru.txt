@@ -1,0 +1,63 @@
+# Получить список всех виртуальных машин:
+virsh -c qemu:///system list --all
+
+# Получить список запущенных виртуальных машин:
+virsh -c qemu:///system list
+
+# Запустить виртуальную машину:
+virsh -c qemu:///system start web_devel
+
+# Запустить виртуальную машину в процессе загрузки:
+virsh -c qemu:///system autostart web_devel
+
+# Отменить запуск виртуальной машины в процессе загрузки:
+virsh -c qemu:///system autostart web_devel --disable
+
+# Проверка состояния сети виртуальных машин
+virsh -c qemu:///system net-list --all
+
+# Автостарт сети
+virsh -c qemu:///system net-autostart
+
+# Перегрузить виртуальную машину:
+virsh -c qemu:///system reboot web_devel
+
+# Принудительно завершить работу ВМ
+virsh -c qemu:///system destroy web_devel
+
+# Удалить ВМ
+virsh -c qemu:///system undefine web_devel
+
+# Узнать информацию о домене
+virsh -c qemu:///system dominfo web_devel
+
+# Состояние (state) виртуальной машины может быть сохранено в файл с целью возможного восстановления в дальнейшем.
+# Приведенная команда сохранит состояние виртуальной машины в файл с именем, содержащем дату:
+virsh -c qemu:///system save web_devel web_devel-022708.state
+
+# Восстановить виртуальную машину и файла
+virsh -c qemu:///system restore web_devel-022708.state
+
+# Копирование одной виртуальной машины в другую
+sudo virt-clone -o web_devel -n database_devel -f /path/to/database_devel.img --connect=qemu:///system 
+
+#####################################
+# Проброс USB на виртуальную машину #
+#####################################
+
+# Посмотреть на какой шине находится usb-флешка
+lsusb
+
+# создаем XML и вписываем в него bus/device шины, команда >cat usb.device.xml должна показать следующее:
+<hostdev mode='subsystem' type='usb' managed='yes'>
+	<source>
+		<address bus='007' device='002'/>
+	</source>
+</hostdev>
+
+# подключаем конфиг к виртуалке
+virsh attach-device <domain> <file>
+
+# закрепление данных при перезагрузке (выгружаем настройки xml домена и далее указываем его по умолчанию)
+virsh dumpxml <domain> > /full/path/to/<domain>.xml
+virsh define <file>

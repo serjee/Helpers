@@ -1,0 +1,26 @@
+# Searches all available devices for LVM physical volumes
+sudo pvs
+
+# Allows you to see the attributes of VolumeGroupName or all volume groups if none is given
+vgdisplay
+
+# Show the attributes of an individual logical volume
+lvdisplay
+
+# Create a logical volume on 10 Gb with name vm01 to group VolGroup00
+lvcreate -L10G -n vm01 VolGroup00
+
+# Remove a logical volume LVM with name vm01
+umount /dev/VolGroup00/vm01
+lvremove /dev/VolGroup00/vm01
+
+# Extend size of logical volume with name vm01 up to 12G
+lvextend -L12G /dev/vg00/vm01
+note: after it you should to do resize for file system : resize2fs /dev/vg00/vm01
+
+# Extend size of logical volume with name vm01 to 1G
+lvextend -L+1G /dev/vg00/vm01
+note: after it you should to do resize for file system : resize2fs /dev/vg00/vm01
+
+# File system risize after commit command lvextend
+resize2fs /dev/vg00/vm01

@@ -1,0 +1,26 @@
+# Отобразить список групп LVM и физ. томов
+sudo pvs
+
+# Отобразить группы томов LVM
+vgdisplay
+
+# Отобразить логические тома LVM
+lvdisplay
+
+# Создать логический том LVM на 10 Гб с названием vm01 в группе VolGroup00
+lvcreate -L10G -n vm01 VolGroup00
+
+# Удаление логического LVM тома vm01
+umount /dev/VolGroup00/vm01
+lvremove /dev/VolGroup00/vm01
+
+# Увеличение размера логического LVM тома vm01 до 12G
+lvextend -L12G /dev/vg00/vm01
+примечание: + затем нужно увеличить размер файловой системы: resize2fs /dev/vg00/vm01
+
+# Увеличение размера логического LVM тома vm01 на 1G
+lvextend -L+1G /dev/vg00/vm01
+примечание: + затем нужно увеличить размер файловой системы: resize2fs /dev/vg00/vm01
+
+# Увеличить размер файловой системы после команды lvextend
+resize2fs /dev/vg00/vm01
