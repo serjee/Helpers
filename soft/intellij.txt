@@ -1,0 +1,41 @@
+Ctrl+Shift+Alt+S - open Project Structure
+Ctrl+Alt+S - open Settings
+Ctrl+Shift+A - run command by Name
+
+Ctrl+G - go to line number
+Ctrl+U - go to super function or class
+Ctrl+B - go to declaration of function
+Ctrl+Alt+B - go to implementation of function
+Ctrl+Shift+I - fast view of function declaration
+Ctrl+Shift+B - go to object declaration
+Alt+Up/Down - go to previous / next function
+Ctrl+]/[ - go to end / start of block
+
+Ctrl+Shift+F - search into project
+Ctrl+Shift+R - replace into project
+Ctrl+N - search class by name
+Ctrl+Shift+N - search file by name
+Ctrl+Shift+Alt+N - symbol search (this is fast search some element into project)
+
+Ctrl+/ - add single-line comment / remove comment
+Ctrl+Shift+/ - add multi-line comment / remove comment
+Ctrl+Alt+O - remove unused imports
+Ctrl+D - duplicate line
+Ctrl+Y - remove line
+Ctrl+O - redefine function
+
+Ctrl+Shift+]/[ - code select up to end / up to start block
+Ctrl+Shift+F7 - set / unset used in the file
+Ctrl+W - expands the selection area around the cursor, Ctrl+Shift+W - reduces the one
+Ctrl+Alt+T - generate around the selected code: try/catch, if/else, while и т.д.
+Alt+Insert - generate constructors to selected class fields, getters and setters
+
+Alt+F7 - find use in a file (in a new window)
+Ctrl+F7 - find use in a file (selecting)
+Ctrl+F12 - display list of class function
+Ctrl+H - show hierarchies of type
+Ctrl+Shift+H - show hierarchies of functions
+Ctrl+Alt+H - show hierarchies of calls
+
+Shift+F9 - run debug mode
+Shift+F10 - execute
