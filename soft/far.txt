@@ -1,0 +1,51 @@
+### GENERAL ###
+Shift+F9 - save current configuration
+Alt+F9 - switch to full screen and back
+Alt+F8 - call command history
+Ctrl+E - call previous command to command line
+Ctrl+Ins - copy content of command line to buffer
+Shift+Ins - past to command line content from buffer
+
+### TABS ###
+Ctrl+U - swap tabs
+Ctrl+O - hide both tabs
+Ctrl+F1, Ctrl+F2 - hide / show of each tab
+F11 - temp tab (for save this tab -> Alt+Shift+F2)
+Ctrl+1 and etc. numbers - change view of tab
+Ctrl+R - update content of tab
+
+### NAVIGATION ###
+Alt+F1, Alt+F2 - for select a disk
+Ctrl+\ - go to disk root
+Alt+F11 - view history of views and editing
+ALT+F12 - display a directories which opened early
+
+### FILES/DIRECTORIES ###
+Shift+F4 - edit selected file or create new
+Ctrl+Q - fast view file mode
+F3 - view
+F4 - edit
+F5 - copy
+F6 - rename
+F7 - create directory
+F8 - delete
+Ins - multiselect
+Ctrl+A - change attributes of file
+Shift+F1 - add files to archive
+Shift+F2 - extract files from archive
+ALT+F6 - create NTFS link on directory (is analog of Symbolic link in Unix)
+SHIFT+F8 - change encode of file (for mode F3 / F4)
+
+### SEARCH ###
+Alt+F7 - file search
+Alt+F10 - directory search
+hold Alt enter name - fast search
+
+### FILTERS/SORTING ###
+Crtl+F12 - sorting mode
+Ctrl+I - filter by file extension (select as Space button and click Enter for done)
+
+### PROCESS LIST ###
+CTRL+F6  - sorting by size
+F8 - delete process
+F3 - view information about a process

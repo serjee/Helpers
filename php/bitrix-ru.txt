@@ -1,0 +1,59 @@
+// Изменяем длину поля VARCHAR
+ALTER TABLE <table_name> MODIFY <col_name> VARCHAR(65536)
+ALTER TABLE b_user MODIFY `NAME` VARCHAR(255)
+
+// Получить значение строки из настроек главного модуля
+COption::GetOptionString("module.name", "THIS_IS_STRING_KEY", "This is default string value.")
+
+// Показываем эксепшен
+global $APPLICATION;
+$APPLICATION->throwException("This is exception text!");
+
+// Вызвать вывод сообщения для пользователя
+$APPLICATION->IncludeAdminFile("Title of page", $DOCUMENT_ROOT."/bitrix/modules/modulename/install/step.php");
+
+// Получение текущей метки времени
+Bitrix\Main\Diag\Helper::getCurrentMicrotime();
+
+// Прямой SQL запрос в базу через Bitrix API
+global $DB; 
+$sqlQuery = "SELECT count(*) as CNT FROM table"; 
+$rs = $DB->Query($sqlQuery,true); 
+$row = $rs->Fetch();
+echo $row[CNT];
+
+// Способ 1. Запись отладочной информации в файл (arReqIds - массив)
+$results = print_r($arReqIds, true);
+$fp = @fopen($_SERVER["DOCUMENT_ROOT"]."/debug.log", "a+");
+@fwrite($fp, $results."\r\n");
+@fclose($fp);
+
+// Способ 2. Запись отладочной информации в файл.
+Bitrix\Main\Diag\Debug::writeToFile(array('ID' => $id, 'fields'=>$fields ),"","/debug.txt");
+Bitrix\Main\Diag\Debug::dumpToFile(array('ID' => $id, 'fields'=>$fields ),"","/debug.txt");
+
+
+// ###################################### //
+// ### Измерить время выполнения кода ### //
+Bitrix\Main\Diag\Debug::startTimeLabel('test');
+// ......some code........ //
+Bitrix\Main\Diag\Debug::endTimeLabel('test');
+$result = Bitrix\Main\Diag\Debug::getTimeLabels();
+var_dump($result);
+// ### /Измерить время выполнения кода ### //
+// ####################################### //
+
+
+// ###################################### //
+// ### Получение стэка вызова функций ### //
+Bitrix\Main\Diag\Helper::getBackTrace($limit = 0, $options = null);
+// SQL Ткэкер ($reset - флаг перезапуска трэкера)
+\Bitrix\Main\Application::getInstance()->getConnectionPool()->getConnection()->startTracker($reset);
+// ......some code with SQL....... //
+// получаем SQL-запросы в строку
+$query = $arOrg->getTrackerQuery()->getSql();
+\Bitrix\Main\Application::getInstance()->getConnectionPool()->getConnection()->stopTracker();
+// вывод информации из трэкера, если нужно
+print_r(\Bitrix\Main\Application::getInstance()->getConnectionPool()->getConnection()->getTracker());
+// ### /Получение стэка вызова функций ### //
+// ####################################### //

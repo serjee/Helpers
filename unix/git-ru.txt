@@ -1,0 +1,148 @@
+### ПЕРВОНАЧАЛЬНАЯ НАСТРОЙКА ###
+
+# Генерация SSH-ключ на клиенте для доступа к Git репозиторию:
+ssh-keygen -t rsa
+
+# Заполняем глобальный конфиг на клиенте
+git config --global user.name "User Name"
+git config --global user.email email@somemail.com
+
+# Авторизует ключи для доступа пользователей на сервере
+cat /root/.ssh/id_rsa.pub >> /home/git/.ssh/authorized_keys
+
+# Создание пустого репозитория на сервере
+mkdir project.git && cd project.git
+git --bare init
+
+
+### В РАБОТЕ ###
+
+# Клонирование проекта с сервера
+git clone ssh://git@0.0.0.0:22/home/git/repositoryname.git
+
+# Инициализируем новый проект в локальной директории проекта
+git init
+
+# Индексирование всех файлов перед коммитом
+git add .
+
+# Коммит с комментарием из консоли (ключ -m)
+git commit -m 'Сommit text'
+
+# Добавить новую ссылку на хранилище с именем origin
+git remote add origin ssh://git@0.0.0.0:22/home/git/repositoryname.git
+
+# Отправляем коммит на сервер
+git push origin master
+
+# Обновить файлы из репозитория
+git pull origin master
+
+# Отобразить все файлы с момента указанного коммита <hash>
+git diff --name-only <hash>
+
+# История коммитов
+git log --pretty=oneline
+
+# Выдать число комментов, предшествующих текущему
+git log --pretty=oneline | wc -l
+
+# Посмотреть все удаленные хранилища
+git remote -v
+
+# Удалить удаленное хранилище с именем origin
+git remote rm origin
+
+# Откатить изменения в файле до оригинала из последнего коммита
+git checkout -- файл
+
+# Отменить коммит, помеченный тегом
+git revert config-modify-tag — 
+
+# Отменить коммит, используя его хэш <hash>
+git revert <hash>
+
+# Скопировать репозиторий с текущего сервера на удаленный
+git push --mirror git@github.com:serjee/Helpers.git
+
+
+### РАБОТА С ТЕГАМИ ###
+
+# Просмотр тегов
+git tag
+
+# Добавляем тег tag_name с указанием версии и указываем к ней комментарий
+git tag -a tag_name -m 'my version tag_name'
+
+# Добавляем тег tag_name с указанием версии к коммиту по хешу <hash> из истории
+git tag -a tag_name -m 'my version tag_name' <hash>
+
+# Отправка тега tag_name на удаленный сервер
+git push origin tag_name
+
+# Отправка всех тегов на удаленный сервер
+git push origin --tags
+
+# Просмотр тега tag_name и прикрепленной к ней информации
+git show tag_name
+
+# Показывает информацию о самом последнем тэге, доступном из данного коммита
+git describe
+
+# Удаление тега локально и из репозитория
+git tag -d tag_name
+git push origin :refs/tags/tag_name
+
+# Перемещение тега локально и в репозитории
+git tag -f tag_name
+git push -f origin tag_name
+
+
+### ВЕТВЛЕНИЕ ###
+
+# Показать существующие ветки, отметив активные
+git branch
+
+# Создаст новую ветку new-branch
+git branch new-branch
+
+# Удалит ветку new-branch, если та была залита (merged) с разрешением возможных конфликтов в текущую
+git branch -d new-branch
+
+# Принудительно удалит ветку new-branch в любом случае
+git branch -D new-branch
+
+# Переименует ветку в new-name-branch
+git branch -m new-name-branch
+
+# Покажет те ветки, среди предков которых есть определенный коммит
+git branch --contains tag_name
+
+# Переключение между ветками
+checkout some-other-branch
+
+# Попробует объединить текущую ветку и ветку new-feature
+git merge new-feature
+
+
+### ПРИМЕР РАБОТЫ С ВЕТВЛЕНИЕМ ###
+
+# Делается ответвление от ветви разработки (master), с созданием ветки develop
+git checkout -b develop master
+
+# Либо без создания ветки (только переключение)
+git checkout develop
+
+# Переходим на ветку, с которой требуется слияние (master)
+git checkout master
+
+# Производим слияние текущей ветки с веткой develop
+# флаг --no-ff вынуждает Git создавать новый объект коммита при слиянии,
+# чтобы не терять информацию о том, что ветка существовала, и группирует вместе все внесённые изменения
+git merge --no-ff develop
+
+# Если требуется, то удаляем ветку develop
+git branch -d develop
+
+# Фиксируем изменения в репозитории
+git push origin master

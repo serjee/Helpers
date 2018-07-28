@@ -1,0 +1,148 @@
+### INITIAL SETTINGS ###
+
+# Generating SSH key on the client for access to the a repository:
+ssh-keygen -t rsa
+
+# Fills main config on the client
+git config --global user.name "User Name"
+git config --global user.email email@somemail.com
+
+# Adding user public key to server authorized file for client access
+cat /root/.ssh/id_rsa.pub >> /home/git/.ssh/authorized_keys
+
+# Creating empty repository on a server
+mkdir project.git && cd project.git
+git --bare init
+
+
+### IN WORKING OF EVERYDAY ###
+
+# Clone project epositoryname from remote
+git clone ssh://git@0.0.0.0:22/home/git/repositoryname.git
+
+# Init new project in local directory
+git init
+
+# Indexing all files before commit
+git add .
+
+# Commit with comment (key -m)
+git commit -m 'Сommit text'
+
+# Add new remote with name origin
+git remote add origin ssh://git@0.0.0.0:22/home/git/repositoryname.git
+
+# Push commits to server
+git push origin master
+
+# Get last version of files from repository
+git pull origin master
+
+# Display all files after commit with hash
+git diff --name-only <hash>
+
+# Commits history (each commit as one line)
+git log --pretty=oneline
+
+# Get count of commits before current
+git log --pretty=oneline | wc -l
+
+# Display all remotes
+git remote -v
+
+# Delete remote with name origin
+git remote rm origin
+
+# Revert changes in file to origin of last commit
+git checkout -- file
+
+# Revert commit market with tag
+git revert config-modify-tag — 
+
+# Revert commit using hash
+git revert <hash>
+
+# Copy repository with current server to remote
+git push --mirror git@github.com:serjee/Helpers.git
+
+
+### WORKING WITH TAG ###
+
+# Display all tags
+git tag
+
+# Add tag with name tag_name, version and comment
+git tag -a tag_name -m 'my version tag_name'
+
+# Add tag tag_name to commit by hash from history
+git tag -a tag_name -m 'my version tag_name' <hash>
+
+# Send tag tag_name to remote server
+git push origin tag_name
+
+# Send all tags to remote server
+git push origin --tags
+
+# Show tag and binding information with name tag_name
+git show tag_name
+
+# Show information about last tag from the commit
+git describe
+
+# Delete local and remote tag
+git tag -d tag_name
+git push origin :refs/tags/tag_name
+
+# Move local and remote tag
+git tag -f tag_name
+git push -f origin tag_name
+
+
+### BRANCHES ###
+
+# Show current branches and select active
+git branch
+
+# Create new branch with name new-branch
+git branch new-branch
+
+# Delete branch with name new-branch, if the one had been merged with decide possible conflicts in current
+git branch -d new-branch
+
+# Delete branch new-branch in any cases
+git branch -D new-branch
+
+#  Renames the branch in new-name-branch
+git branch -m new-name-branch
+
+# Show branches which contains commit with tag_name
+git branch --contains tag_name
+
+# Checkout between branches
+checkout some-other-branch
+
+# Merge current branch with new-feature branch
+git merge new-feature
+
+
+### EXAMPLE OF WORKING WITH BRANCHES ###
+
+# Create new branch with name develop from master branch
+git checkout -b develop master
+
+# Or without create new branch (only switch)
+git checkout develop
+
+# Go to the master branch, with which you want to merge
+git checkout master
+
+# Do merge current branch with develop branch
+# flag --no-ff say to Git to create new commit when merge,
+# it need for save information about branch
+git merge --no-ff develop
+
+# If need, than delete develop branch
+git branch -d develop
+
+# Fix changes to repository
+git push origin master

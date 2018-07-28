@@ -1,0 +1,59 @@
+// Change the length of the VARCHAR field
+ALTER TABLE <table_name> MODIFY <col_name> VARCHAR(65536)
+ALTER TABLE b_user MODIFY `NAME` VARCHAR(255)
+
+// Get string value from the settings of the main module
+COption::GetOptionString("module.name", "THIS_IS_STRING_KEY", "This is default string value.")
+
+// Generate Exception
+global $APPLICATION;
+$APPLICATION->throwException("This is exception text!");
+
+// Display message for user
+$APPLICATION->IncludeAdminFile("Title of page", $DOCUMENT_ROOT."/bitrix/modules/modulename/install/step.php");
+
+// Get current timestamp
+Bitrix\Main\Diag\Helper::getCurrentMicrotime();
+
+// Direct SQL query to DB using Bitrix API
+global $DB; 
+$sqlQuery = "SELECT count(*) as CNT FROM table"; 
+$rs = $DB->Query($sqlQuery,true); 
+$row = $rs->Fetch();
+echo $row[CNT];
+
+// Way 1. Write debugging information to a file (arReqIds is array)
+$results = print_r($arReqIds, true);
+$fp = @fopen($_SERVER["DOCUMENT_ROOT"]."/debug.log", "a+");
+@fwrite($fp, $results."\r\n");
+@fclose($fp);
+
+// Way 2. Write debugging information to a file.
+Bitrix\Main\Diag\Debug::writeToFile(array('ID' => $id, 'fields'=>$fields ),"","/debug.txt");
+Bitrix\Main\Diag\Debug::dumpToFile(array('ID' => $id, 'fields'=>$fields ),"","/debug.txt");
+
+
+// ####################################### //
+// ### Measure the code execution time ### //
+Bitrix\Main\Diag\Debug::startTimeLabel('test');
+// ......some code........ //
+Bitrix\Main\Diag\Debug::endTimeLabel('test');
+$result = Bitrix\Main\Diag\Debug::getTimeLabels();
+var_dump($result);
+// ### /Measure the code execution time ### //
+// ######################################## //
+
+
+// ####################################### //
+// ### Getting the function call stack ### //
+Bitrix\Main\Diag\Helper::getBackTrace($limit = 0, $options = null);
+// SQL Ткэкер ($reset - flag for restarting the tracker)
+\Bitrix\Main\Application::getInstance()->getConnectionPool()->getConnection()->startTracker($reset);
+// ......some code with SQL....... //
+// get SQL queries as string
+$query = $arOrg->getTrackerQuery()->getSql();
+\Bitrix\Main\Application::getInstance()->getConnectionPool()->getConnection()->stopTracker();
+// output information from the tracker, if necessary
+print_r(\Bitrix\Main\Application::getInstance()->getConnectionPool()->getConnection()->getTracker());
+// ### /Getting the function call stack ### //
+// ######################################## //
